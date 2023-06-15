@@ -1,24 +1,20 @@
 "use client";
 import Image from "next/image";
-import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
+import { CHAIN_NAMESPACES } from "@web3auth/base";
 import { TorusWalletConnectorPlugin } from "@web3auth/torus-wallet-connector-plugin";
 import { Web3Auth } from "@web3auth/modal";
 import { useEffect, useState } from "react";
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
 import { TorusWalletAdapter } from "@web3auth/torus-evm-adapter";
 import { ethers } from "ethers";
-
 require("dotenv").config();
-// import { WalletConnectV1Adapter } from "@web3auth/wallet-connect-v1-adapter";
 
 export default function Home() {
   const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
   const [torusPlugin, setTorusPlugin] =
     useState<TorusWalletConnectorPlugin | null>(null);
   const [address, setAddress] = useState<string | null>(null);
-  const [singer, setSinger] = useState<string | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
-  const [network, setNetwork] = useState<string | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
   const clientId: string = process.env.NEXT_PUBLIC_CLIENT_ID || "";
@@ -39,6 +35,8 @@ export default function Home() {
           },
         });
         // // adding metamask adapter
+        // refer below code
+        // https://github.com/Web3Auth/web3auth-pnp-examples/tree/main/web-modal-sdk/evm/react-evm-modal-example
         const metamaskAdapter = new MetamaskAdapter({
           clientId: clientId,
           sessionTime: 3600, // 1 hour in seconds
@@ -131,7 +129,7 @@ export default function Home() {
       const formattedAddress = addr.slice(0, 6) + "..." + addr.slice(-4);
       setAddress(formattedAddress);
       const balance = await provider.getBalance(addr);
-      console.log("Signer:", Signer, "address", address, "balance", balance);
+      console.log("Signer:", Signer, "address:", address, "balance:", balance);
     }
     setLoggedIn(true);
   };
@@ -149,8 +147,8 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get Free&nbsp;
-          <code className="font-mono font-bold">.eth on Optimism</code>
+          Subdrop&nbsp;
+          <code className="font-mono font-bold">Get Free .eth on Optimism</code>
         </p>
         {loggedIn && address !== null ? (
           <div
